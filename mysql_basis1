@@ -1,0 +1,446 @@
+错误1：Can't create directory 'D:\mysql\data\' (OS errno 2 - No such file or directory)
+把目录改成反斜杠
+2.MySQL登陆报错
+
+更改my.ini文件：
+#sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES 这个有问题，在创建完新用户登录时报错
+sql_mode=NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+
+3.更改root密码，报无password字段
+
+ c:>mysql –uroot
+    mysql>show databases;
+    mysql>use mysql;
+    mysql>UPDATE user SET authentication_string=PASSWORD("123456") WHERE user='root';
+    mysql>FLUSH PRIVILEGES;
+    mysql>QUIT
+错误4：Found option without preceding group in config file
+原因：my.ini文件格式是utf-8
+解决办法，my.ini文件保存为ANSI格式文件
+错误5：安装mysql Install/Remove of the Service Denied!错误的解决办法
+打开cmd.exe程序的时候选择“用管理员身份打开”。
+
+mysqld install
+安装成功之后还是不可以使用的，将安装的mysql的bin文件夹放到Windows的path环境变量下，需要在Windows的服务管理中启动MySQL
+
+(POZ-vdLV5!5
+
+报错：error: Found option without preceding group in config file: D:\mysql-5.6.24-win32\my.ini at line: 1
+Fatal error in defaults handling. Program aborted
+原因：my.ini文件格式是utf-8
+解决办法，my.ini文件保存为ANSI格式文件
+
+mysql 报错ERROR 1820 (HY000): You must reset your password using ALTER USER statement before executin
+解决办法
+1、 修改用户密码
+mysql> alter user 'root'@'localhost' identified by 'youpassword';  
+或者       
+mysql> set password=password("youpassword");
+2、刷新权限
+mysql> flush privileges;
+
+mysql> help contents
+ You asked for help about help category: "Contents"
+ For more information, type 'help <item>', where <item> is one of the following
+ categories:
+    Account Management
+    Administration
+    Compound Statements
+    Data Definition
+    Data Manipulation
+    Data Types
+    Functions
+    Functions and Modifiers for Use with GROUP BY
+    Geographic Features
+    Help Metadata
+    Language Structure
+    Plugins
+    Procedures
+    Storage Engines
+    Table Maintenance
+    Transactions
+    User-Defined Functions
+    Utility
+ mysql>
+
+SQL中进入mysql
+创建新的数据库 create database 数据库名
+进入数据库 use 数据库名；出现Database changed则已进入
+
+MySQL命令终止符为分号 (;) 。
+mysql -h localhost -u root -ppassword
+
+SHOW DATABASES;
+
+在此数据库中建立数据库表
+2.1 先建立表结构（可以理解为表的列名，也就是字段名）在实际生产过程中，表结构是需要经过精心设计的。
+通用的语法格式为：
+CREATE TABLE table_name (column_name column_type);
+mysql> CREATE TABLE Websites(
+    -> id int not null PRIMARY KEY,
+    -> name char(8)
+    -> );
+PRIMARY KEY | UNIQUE 字段设置为主码或字段值是唯一的。
+查看建立的表结构 show columns from [表名];
+记录的插入的语法格式：
+inset {表名} (filed1,field2,....) values (value1,value2,....);
+insert Websites(id,name) values (1,'淘宝');
+
+
+
+ 
+
+以管理员的身份进入cmd，进入安装mysql的bin文件
+mysqld --initialize --console
+net start mysql（服务名）
+net stop mysql#停止mysql服务
+
+退出exit或ctrl+c
+
+登录本机
+mysql -h localhost -P 3306 -u root -p   #mysql -h主机名 -P端口号 -u用户名 -p密码（可以加空格也可以不加空格；如果是本机的3306，则直接写mysql -u用户名 -p密码就行）
+mysql -u root -p
+
+一、	数据库的好处
+1、可以持久化数据到本地（借助于数据库管理系统将数据最终存储到磁盘上的文件）
+2、可实现结构化查询（方便管理）
+二、数据库常见概念
+1、DB 存储数据的容器
+2、DBMS 又称为数据库软件或数据库产品，用于创建或管理DB 
+3、SQL 用于和数据库通信的语言，不是某个数据库软件特有的，而是几乎所有的主流数据库软件通用的语言
+三、数据库存储数据的特点
+1、数据存放到表中，然后表再放到库中
+2、一个库中可以有多张表，每张表具有唯一的表名来标识自己
+3、表中有一个或多个列，列又称为“字段”，相当于java中的“属性”
+4、表中的每一行数据，相当于java中的 “对象”
+四、常见的数据库管理系统
+Mysql/oracle/db2/sqlserver
+
+一、	mysql的背景
+前身属于瑞典的一家公司，MySQL AB
+08年被sun公司收购
+09年被oracle收购
+二、mysql优点
+开源、免费、成本低
+性能高、移植性好
+体积小便于安装
+三、mysql的安装
+属于C/S架构的软件，一般来讲安装服务端
+
+
+show databases; 展示已有数据库
+use 库名；
+show tables； 展示数据库里的表
+show tables from 库名； 展示指定数据库里的表，不用通过use重新进入库
+select database()； 查看当前在哪个库
+
+int 整型数据 varchar(20)字符串
+create table 表名(
+列名 数据类型，
+…);
+desc 表名；查看表的结构
+select * from 表名；查看数据内容
+insert into 表名 （列名，列名，…）values(数据，数据，…) 向表中插入数据，可重复此语句插入多条数据
+update 表名 set 列名=新数据 where 第一列名=数据什么; #在第几行进行数据修改
+delete from 表名 where 第一列名=数据什么；#删除第几行数据
+
+
+mysql>select version(); 查看当前数据库版本
+
+在初始界面输入 mysql --version或mysql -V
+
+语法规范：
+不区分大小写，建议关键字大写，表名列名小写；
+每条命令用分号结尾（在cmd下\g也可以）
+每条命令根据需要，可以缩进或换行（可以关键字单独一行）
+注释（单行注释：#注释文字或-- 注释文字，注意有空格
+多行注释：/*注释文字*/）
+
+数据库图形用户界面SQLyog或Navicat
+
+在SQLyog下
+    更改字体大小：工具->首选项->字体编辑器或Ctrl+滑动鼠标
+Query查询 manipulation 操纵，操作
+Sql分为 
+DQL(data query language)  主要针对于查询，关键字select
+DML(data manipulation language) 主要针对增删改，
+DDL(data define language) 主要针对库和表的定义，如：如何创建库，如何创建表，如何删除表，如何删除库等
+TCL(transaction control language) 事务控制语言
+DCL(data control language) 权限的控制
+
+#启用查询前最好用 USE 制定库名 进入数据库执行查询命令
+#进阶1：基础查询
+语法：
+select 查询列表（查询的东西可以多个）from 表名；
+
+类似于：System.out.println(打印东西)；
+特点: 1、查询列表可以是：表中的字段、常量值、表达式、函数
+	 2、查询的结果是一个虚拟的表格
+
+#1、查询表中的单个字段
+    SELECT last_name FROM employees; 
+
+#2、查询表中的多个字段(中间用逗号隔开)
+	SELECT last_name,salary,email FROM employees;
+
+F12格式化
+#3、查询表中的所有字段（在SQLyog上面双击要查询的字段，加逗号隔开；或用*表示所有字段）
+	SELECT `department_name`,`manager_id`,`location_id` FROM departments;（双击产生了着重号` `，不是单引号，可去掉，加着重号可避免当字段名和关键字重复时进行区分）
+SELECT * FROM employees;(按原始表顺序输出)
+
+#MYSQL中不区分字符和字符串    #字符型和日期型常量值必须用单引号引起来，数值型不需要
+#4、查询常量值
+    SELECT 100;
+	SELECT 'john'; 字符型常量值
+
+#5、查询表达式
+	SELECT 100*98;
+
+#6、查询函数  select 函数名(实参列表)  #mysql中的函数必须有返回值
+	SELECT VERSION();
+
+#7、为字段起别名
+	/*
+	便于理解
+	如果要查询的字段有重名的情况，使用别名可以区分开来
+*/
+	#方式一：使用AS
+SELECT 100*98 AS 别名；
+	SELECT last_name AS 姓,first_name AS 名 FROM employees;
+	#方式二：使用空格
+	SELECT last_name 姓,first_name 名 FROM employees;
+
+	#案例：查询salary,显示结果为out put（别名有特殊符号，如空格，#；别名需加双引号或单引号）
+	SELECT salary AS “out put” FROM employees;
+
+#8、去重   #不允许多个字段，因返回的表格不规则
+    #案例：查询员工表中涉及到的所有的部门编号
+    SELECT DISTINCT department_id FROM employees;（distinct去重）
+
+#9、+号的作用
+	
+	Java中的+号：
+		运算符，两个操作数都为数值型
+		连接符，只要有一个操作数为字符串
+	mysql中的+号：
+		仅仅只有一个功能：运算符
+		当其中一方为字符型时，会试图将字符型数值转换为数值型，如果转换成功，则继续做加法运算；如果转换失败，则将字符型数值转换为0；只要其中一方为null，则结果肯定为null
+	
+#案例：查询员工名和员工姓连接成一个字段，并显示为 姓名
+
+    拼接函数CONCAT:   #拼接字符
+		SELECT CONCAT(str1,str2,…); 但只要一方为null，则结果也为null
+
+	判断函数IFNULL(可能为null的表达式，真为null时你想返回的值)
+        SELECT IFNULL(commission_pct,0) AS 结果, commission_pct FROM employees;（输出结果如果commission_pct为null则输出0，否则输出原始数据）
+
+   SELECT
+    		CONCAT(`first_name`,',',`last_name`,',',IFNULL(commission_pct,0)) AS OUT_PUT
+	FROM
+		employees;  以逗号隔开连接各字符
+
+    ISNULL函数  返回值1，表示true即该值为NULL;0表示false，值不为null
+	判断某字段或表达式是否为null
+    SELECT ISNULL(commission_pct),commission_pct FROM employees;
+
+
+#条件查询
+  语法：
+    select 
+查询列表  第三步
+from 
+表名  先执行，定位到指定表中
+where 
+筛选条件：（筛选条件类似于java中的if条件）  第二步筛选，看哪一行满足要求
+
+#一、按条件表达式筛选
+	条件运算符：>   <   =   <>(或！=，表示不等于)    >=   <=  
+	#等于号= 不能判断null值
+#二、按逻辑表达式筛选
+	逻辑运算符： and   or   not
+	作用：用于连接条件表达式
+
+#三、模糊查询
+    like
+    between and
+	in
+is null | is not null
+
+#一、按条件表达式筛选
+#案例1：查询工资>12000的员工信息
+	SELECT
+		*
+	FROM
+		Employees
+	WHERE
+		salary > 12000;
+
+#案例2：查询部门编号不等于90号的员工名和部门编号
+	SELECT
+		last_name,
+		department_id
+	FROM
+		employees
+	WHERE
+		department_id <> 90;
+
+#二、按逻辑表达式筛选
+#案例1：查询工资在10000至20000之间的员工名、工资及奖金
+SELECT
+	last_name,
+	salary,
+	commission_pct
+FROM
+	employees
+WHERE
+	salary>=10000 
+AND 
+salary<=20000;
+
+#案例2：查询部门编号不是在90到110之间，或者工资高于15000的员工信息
+SELECT
+	*
+FROM
+	employees
+WHERE
+	NOT(department_id>=90 AND department_id<=110) OR salary>15000;
+或者 department_id<90 OR department_id>110 OR salary>15000;
+
+#三、模糊查询
+#1、like    #可以判断字符型或数值型 
+特点：
+1、一般和通配符搭配使用
+	通配符：%  表示任意多个字符，包含零个字符
+			_  表示任意单个字符
+	#注意NULL 虽然似乎%通配符可以匹配任何东西，但有一个例外，即NULL。即使是WHERE name LIKE '%'也不能匹配用值NULL作为产品名的行
+#案例1：查询员工名中包含字符a的员工信息
+SELECT
+	*
+FROM
+	employees
+WHERE
+	last_name LIKE '%a%';    #搜索模式下的列的值是区分大小写的．'abcd%'与ABCD 1000将不匹配
+
+#案例2：查询员工名中第三个字符是a，第五个字符是e的员工名和工资
+SELECT
+	last_name,
+	salary
+FROM
+	employees
+WHERE
+	last_name LIKE '__a_e%';    
+
+#案例3：查询员工名第二个字符为_的员工名
+SELECT
+	last_name
+FROM
+	employees
+WHERE
+	last_name LIKE '_\_%';  # \ 转义符
+或者  last_name LIKE '_&_%' ESCAPE '&';  #用ESCAPE关键字声明后面的符号是转义符，可声明任意字符为转义符
+
+2、between and
+特点：
+1、包含临界值  即  >=   <= 
+2、两个临界值不要调换顺序， 即前面的数要比后面的数小；两个值的类型要一致，或可以隐式转换
+#案例1：查询员工编号在100到120之间的员工信息
+SELECT
+	*
+FROM
+	employees
+WHERE
+    employee_id BETWEEN 100 AND 120; 等价于100<= …<=120;
+
+3、in
+含义：判断某字段的值是否属于in列表中的某一项
+特点：
+1、	in列表的值类型必须一致或兼容（可隐式转换如’123’、123）
+2、	不支持通配符
+
+#案例1：查询员工的工种编号是 IT_PROG、AD_VP、AD_PRES中的一个员工名和工种编号
+SELECT
+	last_name,
+	job_id
+FROM
+	employees
+WHERE
+    job_id = ‘IT_PROG’ OR job_id = ‘AD_VP’ OR job_id = ‘AD_PRES’;
+或者job_id IN ('IT_PROG','AD_VP','AD_PRES');  #放入小括号，用逗号隔开
+
+4、is null | is not null
+1、=或者<>不能用于判断null值
+2、is null | is not null仅仅可以用于判断null值（但是不能写如is 12000等去判断其他类型的值）
+
+
+#案例1、查询没有奖金的员工名和奖金率
+SELECT
+	last_name,
+	commission_pct
+FROM
+	employees
+WHERE
+    commission_pct IS NULL;
+
+#案例2、查询有奖金的员工名和奖金率
+SELECT
+	last_name,
+	commission_pct
+FROM
+	employees
+WHERE
+    commission_pct IS NOT NULL;
+
+#安全等于  <=>  可以判断null或普通类型的值（判断是否等于），但可读性较低
+案例1、查询没有奖金的员工名和奖金率
+SELECT
+	last_name,
+	commission_pct
+FROM
+	employees
+WHERE
+    commission_pct <=> NULL;
+
+案例2、查询工资为12000的员工信息
+SELECT
+	 *
+FROM
+	employees
+WHERE
+    commission_pct <=> 12000;
+
+案例：查询员工编号为176的员工名、部门编号和年薪
+SELECT
+	last_anme,
+	department_id,
+	salary*12*(1+IFNULL(commission_pct,0)) AS 年薪
+FROM
+	Employees；
+
+
+试问：select * from employees; 和 select * from employees where commission_pct like ‘%%’ and last_name like ‘%%’; 结果是否一样？
+    不一样
+	如果判断的字段有null值；如果没有null值就一样；如果用OR可能就一样，因可能所有字段不会同时为NULL
+
+
+
+NULL值
+表示缺失的值
+与数字0或者空白(spaces）是不同的
+使用IS NULL或IS NOT NULL进行判断
+NULL值和空值的区别
+空值长度为0，不占空间;NULL值的长度为NULL，占用空间
+IS NULL无法判断空值
+空值使用“="或者“<>"来处理
+COUNT()计算时，NULL会忽略，空值会加入计算
+
+#排序查询
+    语法：
+	select 查询列表
+	from 表
+	【where 筛选条件】
+	order by 排序列表 【asc|desc】asc升序 desc降序;默认升序排序，可以不用ASC关键字
+	特点：
+
+#案例1：查询员工信息，要求工资从高到低排序
+SELECT * FROM employees ORDER BY salary DESC;
+
